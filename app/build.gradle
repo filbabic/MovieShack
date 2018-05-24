@@ -53,9 +53,8 @@ dependencies {
 
     // Networking
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
-    implementation "com.squareup.retrofit2:converter-jackson:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0"
 
     // Dagger
     implementation "com.google.dagger:dagger:$dagger"
