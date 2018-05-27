@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MovieShack</string>
+
+    <!-- main navigation -->
+    <string name="upcoming_movies_tab">Upcoming</string>
+    <string name="top">Top rated</string>
+    <string name="popular">Popular</string>
 </resources>
