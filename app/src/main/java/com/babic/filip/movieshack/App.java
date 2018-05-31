@@ -10,8 +10,8 @@ import com.babic.filip.movieshack.networking.NetworkingUtils;
 
 public class App extends Application {
 
-    private MovieInteractor movieInteractor;
-    private DatabaseInterface databaseInterface;
+    private static MovieInteractor movieInteractor;
+    private static DatabaseInterface databaseInterface;
 
     @Override
     public void onCreate() {
@@ -19,5 +19,13 @@ public class App extends Application {
 
         movieInteractor = NetworkingUtils.movieInteractor();
         databaseInterface = new DatabaseImpl(DaoProvider.getInstance(this).getMovieDao());
+    }
+
+    public static MovieInteractor getMovieInteractor() {
+        return movieInteractor;
+    }
+
+    public static DatabaseInterface getDatabaseInterface() {
+        return databaseInterface;
     }
 }

@@ -8,6 +8,8 @@ import android.content.Context;
 @Database(entities = {MovieDao.class}, version = 1)
 public abstract class DaoProvider extends RoomDatabase {
 
+    private static final String NAME = "movies_database";
+
     public abstract MovieDao getMovieDao();
 
     private static DaoProvider instance;
@@ -16,7 +18,7 @@ public abstract class DaoProvider extends RoomDatabase {
         if (instance == null) {
             synchronized (DaoProvider.class) {
                 if (instance == null) {
-                    instance = Room.databaseBuilder(context, DaoProvider.class, "movies_database")
+                    instance = Room.databaseBuilder(context, DaoProvider.class, NAME)
                                    .allowMainThreadQueries()
                                    .build();
                 }
@@ -26,3 +28,4 @@ public abstract class DaoProvider extends RoomDatabase {
         return instance;
     }
 }
+
