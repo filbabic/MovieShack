@@ -1,20 +1,23 @@
 package com.babic.filip.movieshack.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity(tableName = "movies")
 public class Movie {
 
-
+    @PrimaryKey
     private String id;
 
     private String title;
-
-    private String descriptio;
-
+    private String description;
     private String rating;
+    private String type; //this will be added post-fetching, to differentiate movie type
 
-    public Movie(String id, String title, String descriptio, String rating) {
+    public Movie(String id, String title, String description, String rating) {
         this.id = id;
         this.title = title;
-        this.descriptio = descriptio;
+        this.description = description;
         this.rating = rating;
     }
 
@@ -26,8 +29,8 @@ public class Movie {
         return title;
     }
 
-    public String getDescriptio() {
-        return descriptio;
+    public String getDescription() {
+        return description;
     }
 
     public String getRating() {
