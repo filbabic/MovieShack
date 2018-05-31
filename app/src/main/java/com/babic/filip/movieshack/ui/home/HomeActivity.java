@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -32,26 +33,24 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         UpcomingMoviesFragment fragment = new UpcomingMoviesFragment();
         refreshablePage = fragment;
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frameContainer, fragment)
-                .commit();
+        replacePage(fragment);
     }
 
     private void showTopRated() {
         TopRatedMoviesFragment fragment = new TopRatedMoviesFragment();
         refreshablePage = fragment;
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frameContainer, fragment)
-                .commit();
+        replacePage(fragment);
     }
 
     private void showPopular() {
         PopularMoviesFragment fragment = new PopularMoviesFragment();
         refreshablePage = fragment;
 
+        replacePage(fragment);
+    }
+
+    private void replacePage(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frameContainer, fragment)
