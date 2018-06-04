@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 27
@@ -77,12 +78,14 @@ dependencies {
 
     //Architecture components
     implementation "android.arch.lifecycle:extensions:$architectureComponents"
-    annotationProcessor "android.lifecycle:lifecycle-compiler-ktx:$architectureComponents"
     implementation "android.arch.lifecycle:reactivestreams:$architectureComponents"
+    kapt "android.arch.lifecycle:compiler:$architectureComponents"
+
 
     //room database
     implementation "android.arch.persistence.room:runtime:$room"
     annotationProcessor "android.arch.persistence.room:compiler:$room"
+    kapt "android.arch.persistence.room:compiler:$room"
     implementation "android.arch.persistence.room:rxjava2:$room"
 
 }

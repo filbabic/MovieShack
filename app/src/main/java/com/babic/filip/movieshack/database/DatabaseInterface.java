@@ -8,9 +8,12 @@ public interface DatabaseInterface {
 
     List<Movie> getMoviesByType(String type);
 
-    void addMovie(Movie movie);
+    void addMovies(List<Movie> movies);
 
     void updateMovie(Movie movie);
 
     Movie getMovieById(String id);
+
+
+    void clearMoviesByType(String type);
 }

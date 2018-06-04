@@ -27,6 +27,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         bottomNavigation.setOnNavigationItemSelectedListener(this);
         bottomNavigation.setOnNavigationItemReselectedListener(this);
+
+        showPopular();
     }
 
     private void showUpcoming() {

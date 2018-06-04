@@ -1,11 +1,14 @@
 package com.babic.filip.movieshack.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovieList {
 
-    private List<Movie> movies = new ArrayList<>();
+    @SerializedName("results")
+    private List<Movie> movies;
 
     public MovieList(List<Movie> movies) {
         this.movies = movies;

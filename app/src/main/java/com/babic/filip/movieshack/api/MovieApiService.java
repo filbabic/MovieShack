@@ -2,19 +2,22 @@ package com.babic.filip.movieshack.api;
 
 import com.babic.filip.movieshack.model.MovieList;
 
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface MovieApiService {
 
-    // TODO: 27/05/2018 add proper parameters for each request
-    @GET("/movies")
-    Call<MovieList> getTopRatedMovies();
+    @GET("/3/movie/top_rated")
+    Call<MovieList> getTopRatedMovies(@QueryMap Map<String, String> query);
 
-    @GET("/movies")
-    Call<MovieList> getUpcomingMovies();
+    @GET("/3/movie/upcoming")
+    Call<MovieList> getUpcomingMovies(@QueryMap Map<String, String> query);
 
-
-    @GET("/movies")
-    Call<MovieList> getPopularMovies();
+    @GET("/3/movie/popular")
+    Call<MovieList> getPopularMovies(@QueryMap Map<String, String> query);
 }

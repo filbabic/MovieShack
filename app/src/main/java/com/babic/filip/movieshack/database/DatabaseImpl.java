@@ -19,8 +19,10 @@ public class DatabaseImpl implements DatabaseInterface {
     }
 
     @Override
-    public void addMovie(final Movie movie) {
-        movieDao.addMovie(movie);
+    public void addMovies(final List<Movie> movies) {
+        for (final Movie movie : movies) {
+            movieDao.addMovie(movie);
+        }
     }
 
     @Override
@@ -31,5 +33,10 @@ public class DatabaseImpl implements DatabaseInterface {
     @Override
     public Movie getMovieById(final String id) {
         return movieDao.getMovieById(id);
+    }
+
+    @Override
+    public void clearMoviesByType(final String type) {
+        movieDao.deleteMoviesByType(type);
     }
 }

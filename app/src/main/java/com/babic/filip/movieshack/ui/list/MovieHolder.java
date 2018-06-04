@@ -5,13 +5,11 @@ import android.view.View;
 
 import com.babic.filip.movieshack.model.Movie;
 
-public class MovieHolder extends RecyclerView.ViewHolder {
+public abstract class MovieHolder extends RecyclerView.ViewHolder {
 
     public MovieHolder(final View itemView) {
         super(itemView);
     }
 
-    public void displayItem(final Movie movie) {
-
-    }
+    abstract void displayItem(final Movie movie);
 }
