@@ -20,6 +20,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 ext {
@@ -35,7 +40,7 @@ ext {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // UI
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
@@ -73,7 +78,7 @@ dependencies {
 
     // Test
     testImplementation 'junit:junit:4.12'
-    testImplementation "com.nhaarman:mockito-kotlin:1.5.0"
+    testImplementation 'com.nhaarman:mockito-kotlin:1.5.0'
     testImplementation "android.arch.core:core-testing:$architectureComponents"
 
     //Architecture components
@@ -81,11 +86,13 @@ dependencies {
     implementation "android.arch.lifecycle:reactivestreams:$architectureComponents"
     kapt "android.arch.lifecycle:compiler:$architectureComponents"
 
-
     //room database
     implementation "android.arch.persistence.room:runtime:$room"
     annotationProcessor "android.arch.persistence.room:compiler:$room"
     kapt "android.arch.persistence.room:compiler:$room"
     implementation "android.arch.persistence.room:rxjava2:$room"
-
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

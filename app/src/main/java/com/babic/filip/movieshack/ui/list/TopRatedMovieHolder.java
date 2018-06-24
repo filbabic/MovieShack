@@ -1,5 +1,6 @@
 package com.babic.filip.movieshack.ui.list;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.babic.filip.movieshack.model.Movie;
@@ -11,7 +12,7 @@ public class TopRatedMovieHolder extends MovieHolder{
     }
 
     @Override
-    void displayItem(final Movie movie) {
+    void displayItem(@NonNull final Movie movie) {
 
     }
 }

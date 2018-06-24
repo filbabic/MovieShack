@@ -1,5 +1,6 @@
 package com.babic.filip.movieshack.ui.list;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -11,5 +12,5 @@ public abstract class MovieHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    abstract void displayItem(final Movie movie);
+    abstract void displayItem(@NonNull  final Movie movie);
 }

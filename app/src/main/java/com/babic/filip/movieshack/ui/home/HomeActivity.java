@@ -14,6 +14,8 @@ import com.babic.filip.movieshack.ui.popular.PopularMoviesFragment;
 import com.babic.filip.movieshack.ui.topRated.TopRatedMoviesFragment;
 import com.babic.filip.movieshack.ui.upcoming.UpcomingMoviesFragment;
 
+import java.util.List;
+
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemReselectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private RefreshablePage refreshablePage = null;
@@ -27,6 +29,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         bottomNavigation.setOnNavigationItemSelectedListener(this);
         bottomNavigation.setOnNavigationItemReselectedListener(this);
+        bottomNavigation.setSelectedItemId(R.id.popularMovies);
 
         showPopular();
     }

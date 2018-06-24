@@ -18,7 +18,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkingUtils {
 
     private static final String BASE_URL = "http://api.themoviedb.org/";
-    private static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/original";
     private static MovieApiService movieApiService;
 
     private static String baseUrl() {

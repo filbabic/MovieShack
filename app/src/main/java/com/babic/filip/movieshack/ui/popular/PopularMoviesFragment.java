@@ -10,19 +10,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.babic.filip.movieshack.App;
 import com.babic.filip.movieshack.R;
+import com.babic.filip.movieshack.listener.LastItemReachedListener;
 import com.babic.filip.movieshack.listener.RefreshablePage;
 import com.babic.filip.movieshack.model.Movie;
 import com.babic.filip.movieshack.model.MovieList;
 import com.babic.filip.movieshack.networking.NetworkingUtils;
 import com.babic.filip.movieshack.ui.list.MovieAdapter;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.HttpException;
 import retrofit2.Response;
 
 public class PopularMoviesFragment extends Fragment implements RefreshablePage {
@@ -35,7 +39,8 @@ public class PopularMoviesFragment extends Fragment implements RefreshablePage {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater,
+                             @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_movies, container, false);
     }
 
@@ -52,6 +57,7 @@ public class PopularMoviesFragment extends Fragment implements RefreshablePage {
         movies.setItemAnimator(new DefaultItemAnimator());
         movies.setLayoutManager(new LinearLayoutManager(getActivity()));
         movies.setAdapter(adapter);
+        movies.addOnScrollListener(new LastItemReachedListener(this::getMovies));
     }
 
     @Override
@@ -63,7 +69,6 @@ public class PopularMoviesFragment extends Fragment implements RefreshablePage {
     private void getMovies() {
         if (page == 1 && !NetworkingUtils.hasInternet(getActivity())) {
             final List<Movie> movies = App.getDatabaseInterface().getMoviesByType(MOVIE_TYPE);
-
             adapter.setData(movies);
         } else {
             App.getMovieInteractor().getMovies(page, MOVIE_TYPE, getCallback());
@@ -85,10 +90,28 @@ public class PopularMoviesFragment extends Fragment implements RefreshablePage {
             }
 
             @Override
-            public void onFailure(final Call<MovieList> call, final Throwable t) {
-                // TODO: 03/06/2018 handle errors
+            public void onFailure(final Call<MovieList> call, final Throwable error) {
+                if (error instanceof HttpException) {
+                    showServerError();
+                } else if (error instanceof IOException) {
+                    showNetworkError();
+                } else {
+                    showGeneralError();
+                }
             }
         };
+    }
+
+    private void showServerError() {
+        Toast.makeText(getActivity(), getString(R.string.server_error), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showNetworkError() {
+        Toast.makeText(getActivity(), getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showGeneralError() {
+        Toast.makeText(getActivity(), getString(R.string.general_error), Toast.LENGTH_SHORT).show();
     }
 
     private void showData(final List<Movie> movies) {
@@ -107,3 +130,5 @@ public class PopularMoviesFragment extends Fragment implements RefreshablePage {
         page++;
     }
 }
+
+

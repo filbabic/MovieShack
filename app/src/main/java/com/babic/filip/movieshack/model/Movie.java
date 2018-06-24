@@ -33,11 +33,14 @@ public class Movie {
     @SerializedName("release_date")
     private String releaseDate;
 
+    private String popularity;
+
     @Nullable
     private String type; //this will be added post-fetching, to differentiate movie type
 
     public Movie(@NonNull final String id, final String title, final String description, final int numberOfVotes, final float averageScore, final String image,
-                 final String releaseDate, @Nullable final String type) {
+                 final String releaseDate, final String popularity,
+                 final String type) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -45,6 +48,7 @@ public class Movie {
         this.averageScore = averageScore;
         this.image = image;
         this.releaseDate = releaseDate;
+        this.popularity = popularity;
         this.type = type;
     }
 
@@ -112,5 +116,13 @@ public class Movie {
 
     public void setType(@Nullable final String type) {
         this.type = type;
+    }
+
+    public String getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(final String popularity) {
+        this.popularity = popularity;
     }
 }

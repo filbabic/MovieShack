@@ -5,4 +5,8 @@
     <string name="upcoming_movies_tab">Upcoming</string>
     <string name="top">Top rated</string>
     <string name="popular">Popular</string>
+    <string name="movie_popularity">Popularity: %s</string>
+    <string name="server_error">Server error!</string>
+    <string name="general_error">Something went wrong!</string>
+    <string name="network_error">Network error!</string>
 </resources>
