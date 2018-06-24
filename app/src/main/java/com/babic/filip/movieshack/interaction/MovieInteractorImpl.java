@@ -5,12 +5,15 @@ import com.babic.filip.movieshack.common.Constants;
 import com.babic.filip.movieshack.common.utils.QueryUtils;
 import com.babic.filip.movieshack.model.MovieList;
 
+import javax.inject.Inject;
+
 import retrofit2.Callback;
 
 public class MovieInteractorImpl implements MovieInteractor {
 
     private final MovieApiService movieApiService;
 
+    @Inject
     public MovieInteractorImpl(MovieApiService movieApiService) {
         this.movieApiService = movieApiService;
     }

@@ -17,25 +17,19 @@ import com.babic.filip.movieshack.R;
 import com.babic.filip.movieshack.listener.LastItemReachedListener;
 import com.babic.filip.movieshack.listener.RefreshablePage;
 import com.babic.filip.movieshack.model.Movie;
-import com.babic.filip.movieshack.model.MovieList;
 import com.babic.filip.movieshack.networking.NetworkingUtils;
 import com.babic.filip.movieshack.ui.list.MovieAdapter;
 
-import java.io.IOException;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.HttpException;
-import retrofit2.Response;
+import javax.inject.Inject;
 
-public class PopularMoviesFragment extends Fragment implements RefreshablePage {
+public class PopularMoviesFragment extends Fragment implements RefreshablePage, PopularMoviesContract.View {
 
     private final MovieAdapter adapter = new MovieAdapter(R.layout.item_movie_popular);
 
-    private int page = 1;
-
-    private static final String MOVIE_TYPE = "POPULAR";
+    @Inject
+    PopularMoviesContract.Presenter presenter;
 
     @Nullable
     @Override
@@ -48,8 +42,10 @@ public class PopularMoviesFragment extends Fragment implements RefreshablePage {
     public void onViewCreated(@NonNull final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUi(view);
+        App.component().inject(this);
+        presenter.setView(this);
 
-        getMovies();
+        presenter.getMovies(NetworkingUtils.hasInternet(getActivity()));
     }
 
     private void initUi(View view) {
@@ -57,78 +53,36 @@ public class PopularMoviesFragment extends Fragment implements RefreshablePage {
         movies.setItemAnimator(new DefaultItemAnimator());
         movies.setLayoutManager(new LinearLayoutManager(getActivity()));
         movies.setAdapter(adapter);
-        movies.addOnScrollListener(new LastItemReachedListener(this::getMovies));
+        movies.addOnScrollListener(new LastItemReachedListener(() -> presenter.getMovies(NetworkingUtils.hasInternet(getActivity()))));
     }
 
     @Override
     public void refresh() {
-        page = 1;
-        getMovies();
+        presenter.refresh(NetworkingUtils.hasInternet(getActivity()));
     }
 
-    private void getMovies() {
-        if (page == 1 && !NetworkingUtils.hasInternet(getActivity())) {
-            final List<Movie> movies = App.getDatabaseInterface().getMoviesByType(MOVIE_TYPE);
-            adapter.setData(movies);
-        } else {
-            App.getMovieInteractor().getMovies(page, MOVIE_TYPE, getCallback());
-        }
+    @Override
+    public void showMovies(final List<Movie> movies) {
+        adapter.setData(movies);
     }
 
-    private Callback<MovieList> getCallback() {
-        return new Callback<MovieList>() {
-
-            @Override
-            public void onResponse(final Call<MovieList> call, final Response<MovieList> response) {
-                if (response.body() != null && response.body().getMovies() != null) {
-                    final List<Movie> movies = response.body().getMovies();
-
-                    if (movies != null && !movies.isEmpty()) {
-                        showData(movies);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(final Call<MovieList> call, final Throwable error) {
-                if (error instanceof HttpException) {
-                    showServerError();
-                } else if (error instanceof IOException) {
-                    showNetworkError();
-                } else {
-                    showGeneralError();
-                }
-            }
-        };
+    @Override
+    public void addMoreMovies(final List<Movie> movies) {
+        adapter.addData(movies);
     }
 
-    private void showServerError() {
+    @Override
+    public void showServerError() {
         Toast.makeText(getActivity(), getString(R.string.server_error), Toast.LENGTH_SHORT).show();
     }
 
-    private void showNetworkError() {
+    @Override
+    public void showNetworkError() {
         Toast.makeText(getActivity(), getString(R.string.network_error), Toast.LENGTH_SHORT).show();
     }
 
-    private void showGeneralError() {
+    @Override
+    public void showGeneralError() {
         Toast.makeText(getActivity(), getString(R.string.general_error), Toast.LENGTH_SHORT).show();
     }
-
-    private void showData(final List<Movie> movies) {
-        for (Movie movie : movies) {
-            movie.setType(MOVIE_TYPE);
-        }
-
-        if (page == 1) {
-            adapter.setData(movies);
-            App.getDatabaseInterface().clearMoviesByType(MOVIE_TYPE);
-            App.getDatabaseInterface().addMovies(movies);
-        } else {
-            adapter.addData(movies);
-        }
-
-        page++;
-    }
 }
-
-

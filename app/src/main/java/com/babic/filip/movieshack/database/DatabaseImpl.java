@@ -5,10 +5,13 @@ import com.babic.filip.movieshack.model.Movie;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class DatabaseImpl implements DatabaseInterface {
 
     private final MovieDao movieDao;
 
+    @Inject
     public DatabaseImpl(final MovieDao movieDao) {
         this.movieDao = movieDao;
     }

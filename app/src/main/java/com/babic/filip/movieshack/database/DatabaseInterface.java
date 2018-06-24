@@ -14,6 +14,5 @@ public interface DatabaseInterface {
 
     Movie getMovieById(String id);
 
-
     void clearMoviesByType(String type);
 }

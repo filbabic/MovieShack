@@ -55,17 +55,6 @@ public class TopRatedMoviesFragment extends Fragment implements RefreshablePage 
     @Override
     public void refresh() {
         page = 1;
-        getMovies();
-    }
-
-    private void getMovies() {
-        if (page == 1 && !NetworkingUtils.hasInternet(getActivity())) {
-            final List<Movie> movies = App.getDatabaseInterface().getMoviesByType(MOVIE_TYPE);
-
-            adapter.setData(movies);
-        } else {
-            App.getMovieInteractor().getMovies(page, MOVIE_TYPE, getCallback());
-        }
     }
 
     private Callback<MovieList> getCallback() {
@@ -96,8 +85,6 @@ public class TopRatedMoviesFragment extends Fragment implements RefreshablePage 
 
         if (page == 1) {
             adapter.setData(movies);
-            App.getDatabaseInterface().clearMoviesByType(MOVIE_TYPE);
-            App.getDatabaseInterface().addMovies(movies);
         } else {
             adapter.addData(movies);
         }
