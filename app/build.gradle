@@ -31,12 +31,12 @@ ext {
     supportLib = "27.1.1"
     retrofit = "2.3.0"
     okhttp = "3.9.0"
-    dagger = "2.12"
     glide = "4.3.1"
     leakcanary = "1.5.4"
     playServices = "11.8.0"
     architectureComponents = "1.1.1"
     room = "1.1.0"
+    koin = "0.9.3"
 }
 
 dependencies {
@@ -64,12 +64,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
 
-    // Dagger
-    implementation "com.google.dagger:dagger:$dagger"
-    kapt "com.google.dagger:dagger-compiler:$dagger"
-    implementation "com.google.dagger:dagger-android:$dagger"
-    implementation "com.google.dagger:dagger-android-support:$dagger"
-    kapt "com.google.dagger:dagger-android-processor:$dagger"
+    //Koin
+    implementation "org.koin:koin-core:$koin"
+    implementation "org.koin:koin-android:$koin"
+    implementation "org.koin:koin-android-architecture:$koin"
 
     // Leakcanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
@@ -91,7 +89,7 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:$room"
     kapt "android.arch.persistence.room:compiler:$room"
     implementation "android.arch.persistence.room:rxjava2:$room"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
     mavenCentral()
