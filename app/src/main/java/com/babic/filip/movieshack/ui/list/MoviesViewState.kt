@@ -1,4 +1,4 @@
-package com.babic.filip.movieshack.ui.popular
+package com.babic.filip.movieshack.ui.list
 
 import com.babic.filip.movieshack.model.Movie
 

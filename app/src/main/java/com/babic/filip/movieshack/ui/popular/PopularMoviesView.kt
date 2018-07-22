@@ -1,10 +1,5 @@
 package com.babic.filip.movieshack.ui.popular
 
-interface PopularMoviesView {
+import com.babic.filip.movieshack.ui.base.BaseMoviesView
 
-    fun showServerError()
-
-    fun showNetworkError()
-
-    fun showGeneralError()
-}
+interface PopularMoviesView : BaseMoviesView

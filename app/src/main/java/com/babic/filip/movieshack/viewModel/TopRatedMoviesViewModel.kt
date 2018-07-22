@@ -9,32 +9,33 @@ import com.babic.filip.movieshack.model.Movie
 import com.babic.filip.movieshack.model.MovieList
 import com.babic.filip.movieshack.ui.base.BaseViewModel
 import com.babic.filip.movieshack.ui.list.MoviesViewState
-import com.babic.filip.movieshack.ui.popular.PopularMoviesView
+import com.babic.filip.movieshack.ui.topRated.TopRatedMoviesView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
 
-private const val MOVIE_TYPE = "POPULAR"
+private const val MOVIE_TYPE = "TOP_RATED"
 
-class PopularMoviesViewModel(private val databaseInterface: DatabaseInterface,
-                             private val movieInteractor: MovieInteractor) : ViewModel(), BaseViewModel<PopularMoviesView, MoviesViewState> {
+class TopRatedMoviesViewModel(private val databaseInterface: DatabaseInterface,
+                              private val movieInteractor: MovieInteractor) : ViewModel(), BaseViewModel<TopRatedMoviesView, MoviesViewState> {
+
+    private lateinit var view: TopRatedMoviesView
+
+    private val viewState = MutableLiveData<MoviesViewState>()
 
     private var page = 1
-    private lateinit var view: PopularMoviesView
 
-    private val viewStateData = MutableLiveData<MoviesViewState>()
-
-    override fun setView(view: PopularMoviesView) {
+    override fun setView(view: TopRatedMoviesView) {
         this.view = view
     }
 
-    override fun viewState(): LiveData<MoviesViewState> = viewStateData
+    override fun viewState(): LiveData<MoviesViewState> = viewState
 
     fun getMovies(hasInternet: Boolean) = if (page == 1 && !hasInternet) {
         val data = MoviesViewState(databaseInterface.getMoviesByType(MOVIE_TYPE))
-        viewStateData.value = data
+        viewState.value = data
     } else {
         movieInteractor.getMovies(page, MOVIE_TYPE, getCallback())
     }
@@ -66,13 +67,13 @@ class PopularMoviesViewModel(private val databaseInterface: DatabaseInterface,
         if (page == 1) {
             databaseInterface.clearMoviesByType(MOVIE_TYPE)
             databaseInterface.addMovies(newMovies)
-            viewStateData.value = null
+            viewState.value = null
         }
-        val data = (viewStateData.value ?: MoviesViewState()).let {
+        val data = (viewState.value ?: MoviesViewState()).let {
             it.copy(movies = it.movies + newMovies)
         }
 
-        viewStateData.value = data
+        viewState.value = data
 
         page++
     }

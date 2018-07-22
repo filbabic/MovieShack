@@ -86,7 +86,6 @@ dependencies {
 
     //room database
     implementation "android.arch.persistence.room:runtime:$room"
-    annotationProcessor "android.arch.persistence.room:compiler:$room"
     kapt "android.arch.persistence.room:compiler:$room"
     implementation "android.arch.persistence.room:rxjava2:$room"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

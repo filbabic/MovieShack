@@ -8,6 +8,9 @@ import com.babic.filip.movieshack.database.dao.DaoProvider
 import com.babic.filip.movieshack.interaction.MovieInteractor
 import com.babic.filip.movieshack.interaction.MovieInteractorImpl
 import com.babic.filip.movieshack.viewModel.PopularMoviesViewModel
+import com.babic.filip.movieshack.viewModel.TopRatedMoviesViewModel
+import com.babic.filip.movieshack.viewModel.UpcomingMoviesViewModel
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.architecture.ext.viewModel
@@ -22,13 +25,13 @@ val applicationModule = applicationContext {
 
     //application related
     bean { App.instance }
-    bean { DaoProvider.getInstance(get()) }
-    bean { get<DaoProvider>().movieDao }
+    bean { DaoProvider.instance }
+    bean { get<DaoProvider>().movieDao() }
     bean { DatabaseImpl(get()) as DatabaseInterface }
 
     //networking
     bean { BASE_URL }
-    bean { HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY } }
+    bean { HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY } as Interceptor }
     bean { OkHttpClient.Builder().addInterceptor(get()).build() }
     bean { GsonConverterFactory.create() as Converter.Factory }
     bean {
@@ -46,4 +49,6 @@ val applicationModule = applicationContext {
 
     //presentation
     viewModel { PopularMoviesViewModel(get(), get()) }
+    viewModel { TopRatedMoviesViewModel(get(), get()) }
+    viewModel { UpcomingMoviesViewModel(get(), get()) }
 }
