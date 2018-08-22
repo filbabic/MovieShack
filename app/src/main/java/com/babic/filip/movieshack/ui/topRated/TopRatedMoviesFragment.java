@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.babic.filip.movieshack.App;
 import com.babic.filip.movieshack.R;
@@ -21,17 +22,18 @@ import com.babic.filip.movieshack.ui.list.MovieAdapter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TopRatedMoviesFragment extends Fragment implements RefreshablePage {
+public class TopRatedMoviesFragment extends Fragment implements TopRatedMoviesContract.View, RefreshablePage {
 
     private final MovieAdapter adapter = new MovieAdapter(R.layout.item_movie_top_rated);
 
-    private int page = 1;
-
-    private static final String MOVIE_TYPE = "TOP_RATED";
+    @Inject
+    TopRatedMoviesContract.Presenter presenter;
 
     @Nullable
     @Override
@@ -43,6 +45,7 @@ public class TopRatedMoviesFragment extends Fragment implements RefreshablePage 
     public void onViewCreated(@NonNull final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUi(view);
+        App.component().inject(this);
     }
 
     private void initUi(View view) {
@@ -53,42 +56,32 @@ public class TopRatedMoviesFragment extends Fragment implements RefreshablePage 
     }
 
     @Override
+    public void showServerError() {
+        Toast.makeText(getActivity(), getString(R.string.server_error), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showNetworkError() {
+        Toast.makeText(getActivity(), getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showGeneralError() {
+        Toast.makeText(getActivity(), getString(R.string.general_error), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void refresh() {
-        page = 1;
+        presenter.refresh(NetworkingUtils.hasInternet(getActivity()));
     }
 
-    private Callback<MovieList> getCallback() {
-        return new Callback<MovieList>() {
-
-            @Override
-            public void onResponse(final Call<MovieList> call, final Response<MovieList> response) {
-                if (response.body() != null && response.body().getMovies() != null) {
-                    final List<Movie> movies = response.body().getMovies();
-
-                    if (movies != null && !movies.isEmpty()) {
-                        showData(movies);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(final Call<MovieList> call, final Throwable t) {
-                // TODO: 03/06/2018 handle errors
-            }
-        };
+    @Override
+    public void showMovies(final List<Movie> movies) {
+        adapter.setData(movies);
     }
 
-    private void showData(final List<Movie> movies) {
-        for (Movie movie : movies) {
-            movie.setType(MOVIE_TYPE);
-        }
-
-        if (page == 1) {
-            adapter.setData(movies);
-        } else {
-            adapter.addData(movies);
-        }
-
-        page++;
+    @Override
+    public void addMoreMovies(final List<Movie> movies) {
+        adapter.addData(movies);
     }
 }

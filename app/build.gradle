@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
 
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -49,7 +45,7 @@ dependencies {
 
     // Image loading
     implementation "com.github.bumptech.glide:glide:$glide"
-    kapt "com.github.bumptech.glide:compiler:$glide"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide"
 
     // Support libraries
     implementation "com.android.support:appcompat-v7:$supportLib"
@@ -66,10 +62,10 @@ dependencies {
 
     // Dagger
     implementation "com.google.dagger:dagger:$dagger"
-    kapt "com.google.dagger:dagger-compiler:$dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
     implementation "com.google.dagger:dagger-android:$dagger"
     implementation "com.google.dagger:dagger-android-support:$dagger"
-    kapt "com.google.dagger:dagger-android-processor:$dagger"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger"
 
     // Leakcanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
@@ -84,12 +80,11 @@ dependencies {
     //Architecture components
     implementation "android.arch.lifecycle:extensions:$architectureComponents"
     implementation "android.arch.lifecycle:reactivestreams:$architectureComponents"
-    kapt "android.arch.lifecycle:compiler:$architectureComponents"
+    annotationProcessor "android.arch.lifecycle:compiler:$architectureComponents"
 
     //room database
     implementation "android.arch.persistence.room:runtime:$room"
     annotationProcessor "android.arch.persistence.room:compiler:$room"
-    kapt "android.arch.persistence.room:compiler:$room"
     implementation "android.arch.persistence.room:rxjava2:$room"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

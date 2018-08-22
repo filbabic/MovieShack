@@ -9,10 +9,12 @@ import com.babic.filip.movieshack.model.Movie;
 
 import java.util.List;
 
+import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
+
 @Dao
 public interface MovieDao {
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     void addMovie(Movie movie);
 
     @Update
